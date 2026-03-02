@@ -160,7 +160,8 @@ Based on confirmed type, read in this order:
 4. `templates/project-context/{type}.md` — project-context template
 5. `templates/claude-md/{type}.md` — CLAUDE.md template
 6. `templates/workflow-guide/{type}.md` — workflow document template
-7. `templates/skills/{type}/*.md` — type-specific skill templates
+7. `templates/skills/common/*.md` — common skill templates (all types)
+8. `templates/skills/{type}/*.md` — type-specific skill templates
 9. `templates/intent/{type}.md` — intent document template (new/refactor only)
 
 Type mapping: `new` → `new-project`, `maintenance` → `maintenance`, `refactor` → `refactor`
@@ -241,8 +242,7 @@ Initialize the change tracking directory following OpenSpec's model:
 
 Generate project-level skills as `.claude-plugin/skills/*/SKILL.md` files.
 
-**Common skills (all types):**
-These are provided by the imodel-aispec plugin and available in all projects:
+**Common skills (all types) — generated from `templates/skills/common/`:**
 - `analyst` — Discovery and brainstorming (BMAD Analyst)
 - `pm` — Spec writing with Given/When/Then (BMAD PM)
 - `architect` — Technical design and task breakdown (BMAD Architect)
@@ -256,13 +256,18 @@ These are provided by the imodel-aispec plugin and available in all projects:
 - **maintenance**: `bugfix` — bug diagnosis, `dep-update` — dependency management, `incident` — incident response
 - **refactor**: `legacy-analyze` — legacy code analysis, `migrate` — module migration, `parity-check` — feature parity verification
 
-For each project-specific skill template:
-1. Read template from `templates/skills/{type}/{name}.md`
-2. Replace `{{PLACEHOLDER}}` variables with actual analysis data
+For each skill template:
+1. Read template from `templates/skills/common/{name}.md` or `templates/skills/{type}/{name}.md`
+2. Replace `{{PLACEHOLDER}}` variables with actual analysis data:
+   - `{{PROJECT_NAME}}` → actual project name
+   - `{{TEST_CMD}}` → actual test command
+   - `{{BUILD_CMD}}` → actual build command
+   - `{{LINT_CMD}}` → actual lint command
+   - `{{INSTALL_CMD}}` → actual install command
 3. Write to `target-project/.claude-plugin/skills/{name}/SKILL.md`
 
 **Backward Compatibility:**
-- If `.claude/commands/` exists in target project, preserve it
+- If `.claude/commands/` exists in target project, preserve it and warn about migration
 - If `.claude-plugin/skills/` exists, preserve existing skills
 - Warn user if any skill names conflict
 
@@ -271,9 +276,9 @@ For each project-specific skill template:
 After generating all files, present:
 
 1. **Created files list** with one-line descriptions
-2. **Available skills** table showing:
-   - **Plugin-level skills** (always available): analyst, pm, architect, adr, dev, tdd, qa
-   - **Project-level skills** (generated): scaffold/bugfix/etc. based on project type
+2. **Available skills** table showing all generated skills:
+   - **Common skills** (all projects): analyst, pm, architect, adr, dev, tdd, qa
+   - **Project-specific skills**: scaffold/bugfix/etc. based on project type
 3. **Recommended first actions** (3-5 steps) based on project type:
    - `new`: "Review intent.md → Ratify constitution.md → Ask me to 'write a spec for [feature]' → Ask me to 'design [feature]' → Ask me to 'implement [feature] with TDD'"
    - `maintenance`: "Verify project-context.md → Ask me to 'fix [bug]' or 'add [feature]'"
@@ -299,15 +304,5 @@ After generating all files, present:
 - **`templates/project-context/{type}.md`** — Project context templates
 - **`templates/claude-md/{type}.md`** — CLAUDE.md output templates
 - **`templates/workflow-guide/{type}.md`** — Workflow document templates
+- **`templates/skills/common/*.md`** — Common skill templates (analyst, pm, architect, adr, dev, tdd, qa)
 - **`templates/skills/{type}/*.md`** — Type-specific skill templates (scaffold, bugfix, migrate, etc.)
-
-## Plugin Skills
-
-The following skills are provided by the plugin and available in all projects:
-- **`skills/analyst/`** — Structured brainstorming and discovery
-- **`skills/pm/`** — Spec writing with Given/When/Then
-- **`skills/architect/`** — Technical design and task breakdown
-- **`skills/adr/`** — Architecture Decision Records
-- **`skills/dev/`** — Spec-driven implementation
-- **`skills/tdd/`** — TDD red-green-refactor cycle
-- **`skills/qa/`** — Comprehensive code review

@@ -1,12 +1,12 @@
 ---
 name: qa
-description: Use this skill when the user asks to "review code", "check quality", "code review", "代码审查", "质量检查", "审核代码", or needs comprehensive code review covering spec compliance, security, and quality. Performs structured code review following governance principles.
+description: Use this skill when the user asks to "review code", "check quality", "code review", "代码审查", "质量检查", "审核代码" for {{PROJECT_NAME}}, or needs comprehensive code review covering spec compliance, security, and quality. Performs structured code review following governance principles.
 version: 1.0.0
 ---
 
 # QA Skill
 
-Perform comprehensive code review covering spec compliance, security, correctness, and quality.
+Perform comprehensive code review for {{PROJECT_NAME}} covering spec compliance, security, correctness, and quality.
 
 ## When to Use
 
@@ -16,16 +16,10 @@ This skill activates when:
 - User wants to verify implementation against specifications
 - User needs security or correctness validation
 
-## Context Loading
+## Context
 
-Before starting, dynamically load project context:
-
-1. Check if `.spec/constitution.md` exists in the project root
-   - If exists: Read for governance principles and quality standards
-   - If not: Use standard quality practices
-2. Check if `.spec/project-context.md` exists in the project root
-   - If exists: Read for tech stack, patterns, and conventions
-   - If not: Infer patterns from codebase
+Read @.spec/constitution.md for governance principles and quality standards.
+Read @.spec/project-context.md for tech stack, patterns, and conventions.
 
 ## Instructions
 
@@ -39,7 +33,7 @@ The user's request will provide the changes to review (file paths or change desc
 - [ ] No spec requirements missing
 
 ### Constitution Compliance
-- [ ] Follows project governance principles (if constitution exists)
+- [ ] Follows project governance principles
 - [ ] TDD was followed (tests exist for new code)
 
 ### Correctness

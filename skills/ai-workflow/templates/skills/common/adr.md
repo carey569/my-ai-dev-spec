@@ -1,12 +1,12 @@
 ---
 name: adr
-description: Use this skill when the user asks to "create ADR", "document decision", "architecture decision record", "创建ADR", "架构决策记录", "记录决策", or needs to document significant architectural or technical decisions. Creates structured Architecture Decision Records.
+description: Use this skill when the user asks to "create ADR", "document decision", "architecture decision record", "创建ADR", "架构决策记录", "记录决策" for {{PROJECT_NAME}}, or needs to document significant architectural or technical decisions. Creates structured Architecture Decision Records.
 version: 1.0.0
 ---
 
 # ADR Skill
 
-Create Architecture Decision Records to document significant technical and architectural decisions.
+Create Architecture Decision Records to document significant technical and architectural decisions for {{PROJECT_NAME}}.
 
 ## When to Use
 

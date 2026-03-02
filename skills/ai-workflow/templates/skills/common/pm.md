@@ -1,12 +1,12 @@
 ---
 name: pm
-description: Use this skill when the user asks to "write spec", "create specification", "define requirements", "编写规格", "创建规范", "定义需求", or needs to document feature requirements using Given/When/Then format. Creates structured specifications following spec-driven development principles.
+description: Use this skill when the user asks to "write spec", "create specification", "define requirements", "编写规格", "创建规范", "定义需求" for {{PROJECT_NAME}}, or needs to document feature requirements using Given/When/Then format. Creates structured specifications following spec-driven development principles.
 version: 1.0.0
 ---
 
 # Product Manager Skill
 
-Create structured specifications for features using Given/When/Then format, following spec-driven development principles.
+Create structured specifications for {{PROJECT_NAME}} using Given/When/Then format, following spec-driven development principles.
 
 ## When to Use
 
@@ -16,16 +16,10 @@ This skill activates when:
 - User needs to define what a feature should do (WHAT, not HOW)
 - User asks to document feature behavior in Given/When/Then format
 
-## Context Loading
+## Context
 
-Before starting, dynamically load project context:
-
-1. Check if `.spec/constitution.md` exists in the project root
-   - If exists: Read for governance principles and constraints
-   - If not: Proceed without project-specific governance
-2. Check if `.spec/project-context.md` exists in the project root
-   - If exists: Read for tech stack, conventions, and domain terminology
-   - If not: Proceed without project-specific context
+Read @.spec/constitution.md for governance principles.
+Read @.spec/project-context.md for tech stack, conventions, and domain terminology.
 
 ## Instructions
 
@@ -49,7 +43,7 @@ The system SHALL [behavior description].
 
 3. Every requirement MUST have at least one scenario
 4. Mark ambiguities with `[NEEDS CLARIFICATION]`
-5. Check spec against `.spec/constitution.md` for compliance (if it exists)
+5. Check spec against `.spec/constitution.md` for compliance
 6. Do NOT include technical implementation details (WHAT, not HOW)
 
 ## Deliverable
