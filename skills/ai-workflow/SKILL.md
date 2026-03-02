@@ -18,7 +18,7 @@ Superpowers, and BMAD Method into customized project configurations.
 | Optional: project type | `.spec/constitution.md` — project governance principles |
 | Codebase analysis | `.spec/project-context.md` — tech stack, conventions, constraints |
 | | `.spec/workflow.md` — phased spec-driven development workflow |
-| | `.claude-plugin/skills/*/SKILL.md` — project-specific skills (scaffold, bugfix, migrate...) |
+| | `.claude/skills/*/SKILL.md` — project-specific skills (scaffold, bugfix, migrate...) |
 | | `.spec/specs/` — living specification workspace |
 | | `.spec/changes/` — change tracking (maintenance/refactor) |
 
@@ -238,9 +238,9 @@ Initialize the change tracking directory following OpenSpec's model:
 - How to write delta specs (ADDED/MODIFIED/REMOVED)
 - How to archive completed changes
 
-### Output 7: `.claude-plugin/skills/` directory
+### Output 7: `.claude/skills/` directory
 
-Generate project-level skills as `.claude-plugin/skills/*/SKILL.md` files.
+Generate project-level skills as `.claude/skills/*/SKILL.md` files.
 
 **Common skills (all types) — generated from `templates/skills/common/`:**
 - `analyst` — Discovery and brainstorming (BMAD Analyst)
@@ -264,11 +264,11 @@ For each skill template:
    - `{{BUILD_CMD}}` → actual build command
    - `{{LINT_CMD}}` → actual lint command
    - `{{INSTALL_CMD}}` → actual install command
-3. Write to `target-project/.claude-plugin/skills/{name}/SKILL.md`
+3. Write to `target-project/.claude/skills/{name}/SKILL.md`
 
 **Backward Compatibility:**
 - If `.claude/commands/` exists in target project, preserve it and warn about migration
-- If `.claude-plugin/skills/` exists, preserve existing skills
+- If `.claude/skills/` exists, preserve existing skills
 - Warn user if any skill names conflict
 
 ## Phase 7: Summary and Next Steps
