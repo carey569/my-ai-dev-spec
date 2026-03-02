@@ -1,5 +1,5 @@
 {
-  "name": "imodel-aispec",
+  "name": "ai-dev-spec",
   "description": "AI 开发工作流生成器：分析代码库并生成定制化的 CLAUDE.md、工作流指南和 Prompt 模板",
   "version": "1.0.0",
   "author": {
