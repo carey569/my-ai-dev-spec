@@ -18,7 +18,7 @@ Superpowers, and BMAD Method into customized project configurations.
 | Optional: project type | `.spec/constitution.md` — project governance principles |
 | Codebase analysis | `.spec/project-context.md` — tech stack, conventions, constraints |
 | | `.spec/workflow.md` — phased spec-driven development workflow |
-| | `.claude/commands/*.md` — role-based slash commands (/tdd, /qa, /bugfix...) |
+| | `.claude-plugin/skills/*/SKILL.md` — project-specific skills (scaffold, bugfix, migrate...) |
 | | `.spec/specs/` — living specification workspace |
 | | `.spec/changes/` — change tracking (maintenance/refactor) |
 
@@ -160,8 +160,7 @@ Based on confirmed type, read in this order:
 4. `templates/project-context/{type}.md` — project-context template
 5. `templates/claude-md/{type}.md` — CLAUDE.md template
 6. `templates/workflow-guide/{type}.md` — workflow document template
-7. `templates/commands/common/*.md` — common command templates (all types)
-8. `templates/commands/{type}/*.md` — type-specific command templates
+7. `templates/skills/{type}/*.md` — type-specific skill templates
 9. `templates/intent/{type}.md` — intent document template (new/refactor only)
 
 Type mapping: `new` → `new-project`, `maintenance` → `maintenance`, `refactor` → `refactor`
@@ -238,45 +237,50 @@ Initialize the change tracking directory following OpenSpec's model:
 - How to write delta specs (ADDED/MODIFIED/REMOVED)
 - How to archive completed changes
 
-### Output 7: `.claude/commands/` directory
+### Output 7: `.claude-plugin/skills/` directory
 
-Generate slash commands as `.claude/commands/*.md` files. Each file becomes a
-`/command` that users invoke directly (e.g., `/tdd implement login module`).
+Generate project-level skills as `.claude-plugin/skills/*/SKILL.md` files.
 
-Source templates are in `templates/commands/`. For each command template:
-1. Read the template file
+**Common skills (all types):**
+These are provided by the imodel-aispec plugin and available in all projects:
+- `analyst` — Discovery and brainstorming (BMAD Analyst)
+- `pm` — Spec writing with Given/When/Then (BMAD PM)
+- `architect` — Technical design and task breakdown (BMAD Architect)
+- `adr` — Architecture Decision Records (Spec-Kit)
+- `dev` — Spec-driven implementation (BMAD Dev + Superpowers)
+- `tdd` — TDD red-green-refactor cycle (Superpowers)
+- `qa` — Comprehensive code review (BMAD QA)
+
+**Project-specific skills — generated from `templates/skills/{type}/`:**
+- **new**: `scaffold` — project scaffolding
+- **maintenance**: `bugfix` — bug diagnosis, `dep-update` — dependency management, `incident` — incident response
+- **refactor**: `legacy-analyze` — legacy code analysis, `migrate` — module migration, `parity-check` — feature parity verification
+
+For each project-specific skill template:
+1. Read template from `templates/skills/{type}/{name}.md`
 2. Replace `{{PLACEHOLDER}}` variables with actual analysis data
-3. Write to `target-project/.claude/commands/[name].md`
+3. Write to `target-project/.claude-plugin/skills/{name}/SKILL.md`
 
-**Common commands (all types) — from `templates/commands/common/`:**
-- `/analyst` — Discovery and brainstorming (BMAD Analyst)
-- `/pm` — Spec writing with Given/When/Then (BMAD PM)
-- `/architect` — Technical design and task breakdown (BMAD Architect)
-- `/adr` — Architecture Decision Records (Spec-Kit)
-- `/dev` — Spec-driven implementation (BMAD Dev + Superpowers)
-- `/tdd` — TDD red-green-refactor cycle (Superpowers)
-- `/qa` — Comprehensive code review (BMAD QA)
-
-**Type-specific commands — from `templates/commands/{type}/`:**
-- **new**: `/scaffold` — project scaffolding
-- **maintenance**: `/bugfix` — bug diagnosis, `/dep-update` — dependency management, `/incident` — incident response
-- **refactor**: `/legacy-analyze` — legacy code analysis, `/migrate` — module migration, `/parity-check` — feature parity verification
-
-If `.claude/commands/` already exists in target project, preserve existing commands
-and only add new ones. Warn user if any command names conflict.
+**Backward Compatibility:**
+- If `.claude/commands/` exists in target project, preserve it
+- If `.claude-plugin/skills/` exists, preserve existing skills
+- Warn user if any skill names conflict
 
 ## Phase 7: Summary and Next Steps
 
 After generating all files, present:
 
 1. **Created files list** with one-line descriptions
-2. **Available commands** table showing all generated `/commands` with descriptions
+2. **Available skills** table showing:
+   - **Plugin-level skills** (always available): analyst, pm, architect, adr, dev, tdd, qa
+   - **Project-level skills** (generated): scaffold/bugfix/etc. based on project type
 3. **Recommended first actions** (3-5 steps) based on project type:
-   - `new`: "Review intent.md → Ratify constitution.md → `/pm` to write your first spec → `/architect` to design → `/tdd` to implement"
-   - `maintenance`: "Verify project-context.md → `/bugfix` for bugs or `/pm` + `/dev` for features"
-   - `refactor`: "Review intent.md → `/legacy-analyze` a module → `/migrate` it → `/parity-check` to verify"
-4. **Scale guidance**: When to use Quick Flow vs Full Method
-5. **Iteration reminder**: All .spec/ files are living documents; update as the project evolves
+   - `new`: "Review intent.md → Ratify constitution.md → Ask me to 'write a spec for [feature]' → Ask me to 'design [feature]' → Ask me to 'implement [feature] with TDD'"
+   - `maintenance`: "Verify project-context.md → Ask me to 'fix [bug]' or 'add [feature]'"
+   - `refactor`: "Review intent.md → Ask me to 'analyze [module]' → Ask me to 'migrate [module]' → Ask me to 'verify parity for [module]'"
+4. **Skill invocation note**: "Skills activate automatically based on your requests. Use natural language - no slash commands needed."
+5. **Scale guidance**: When to use Quick Flow vs Full Method
+6. **Iteration reminder**: All .spec/ files are living documents; update as the project evolves
 
 ---
 
@@ -295,5 +299,15 @@ After generating all files, present:
 - **`templates/project-context/{type}.md`** — Project context templates
 - **`templates/claude-md/{type}.md`** — CLAUDE.md output templates
 - **`templates/workflow-guide/{type}.md`** — Workflow document templates
-- **`templates/commands/common/*.md`** — Common command templates (analyst, pm, architect, adr, dev, tdd, qa)
-- **`templates/commands/{type}/*.md`** — Type-specific command templates
+- **`templates/skills/{type}/*.md`** — Type-specific skill templates (scaffold, bugfix, migrate, etc.)
+
+## Plugin Skills
+
+The following skills are provided by the plugin and available in all projects:
+- **`skills/analyst/`** — Structured brainstorming and discovery
+- **`skills/pm/`** — Spec writing with Given/When/Then
+- **`skills/architect/`** — Technical design and task breakdown
+- **`skills/adr/`** — Architecture Decision Records
+- **`skills/dev/`** — Spec-driven implementation
+- **`skills/tdd/`** — TDD red-green-refactor cycle
+- **`skills/qa/`** — Comprehensive code review
