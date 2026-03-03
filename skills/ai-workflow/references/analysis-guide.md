@@ -1,6 +1,10 @@
 # Analysis Interpretation Guide
 
-How to read the analysis JSON output and make customization decisions.
+> Analysis data is collected by following `analysis-methodology.md` using
+> built-in tools (Glob, Grep, Read, Bash). This guide explains how to
+> interpret the collected data and map it to template placeholders.
+
+How to read the analysis data and make customization decisions.
 
 ## File Statistics Interpretation
 
@@ -103,26 +107,26 @@ How to read the analysis JSON output and make customization decisions.
 
 Standard placeholders used across all templates:
 
-| Placeholder | Source in analysis JSON |
-|-------------|------------------------|
-| `{{PROJECT_NAME}}` | Last segment of `project_root` path |
-| `{{PRIMARY_LANGUAGE}}` | `tech_stack.primary_language` |
-| `{{FRAMEWORK}}` | First entry in `tech_stack.frameworks` |
-| `{{PACKAGE_MANAGER}}` | `tech_stack.package_manager` |
-| `{{INSTALL_CMD}}` | Derived from package manager (e.g., `pnpm install`) |
-| `{{DEV_CMD}}` | From package.json scripts or framework convention |
-| `{{BUILD_CMD}}` | From package.json scripts or framework convention |
-| `{{TEST_CMD}}` | From test framework (e.g., `pnpm test`, `pytest`) |
-| `{{LINT_CMD}}` | From detected lint tools (e.g., `pnpm lint`) |
-| `{{ARCHITECTURE}}` | `architecture.pattern` |
-| `{{DIRECTORY_TREE}}` | Generated from `file_statistics.key_directories` |
-| `{{KEY_FILES}}` | `architecture.entry_points` + high-churn files |
-| `{{TEST_FRAMEWORK}}` | `quality.testing.framework` |
-| `{{CI_PLATFORM}}` | `quality.ci_cd.platform` |
-| `{{TOTAL_FILES}}` | `file_statistics.total_files` |
-| `{{TOTAL_COMMITS}}` | `git_metrics.total_commits` |
-| `{{CONTRIBUTORS}}` | `git_metrics.active_contributors` |
-| `{{REPO_AGE}}` | `git_metrics.repo_age_days` |
+| Placeholder | Source (methodology step) |
+|-------------|--------------------------|
+| `{{PROJECT_NAME}}` | Last segment of SOURCE_PATH |
+| `{{PRIMARY_LANGUAGE}}` | Step 2: language with most code lines |
+| `{{FRAMEWORK}}` | Step 2: first detected framework |
+| `{{PACKAGE_MANAGER}}` | Step 2: detected package manager |
+| `{{INSTALL_CMD}}` | Step 2: derived from package manager |
+| `{{DEV_CMD}}` | Step 2: from scripts field or framework convention |
+| `{{BUILD_CMD}}` | Step 2: from scripts field or framework convention |
+| `{{TEST_CMD}}` | Step 2: from test framework + package manager |
+| `{{LINT_CMD}}` | Step 2: from lint tools + package manager |
+| `{{ARCHITECTURE}}` | Step 4: highest-scoring pattern |
+| `{{DIRECTORY_TREE}}` | Step 1: formatted directory tree |
+| `{{KEY_FILES}}` | Step 4: entry points + Step 6: high-churn files |
+| `{{TEST_FRAMEWORK}}` | Step 3: detected test framework |
+| `{{CI_PLATFORM}}` | Step 3: detected CI platform |
+| `{{TOTAL_FILES}}` | Step 1: total file count |
+| `{{TOTAL_COMMITS}}` | Step 6: commit count |
+| `{{CONTRIBUTORS}}` | Step 6: contributor count |
+| `{{REPO_AGE}}` | Step 6: days since first commit |
 
 ## Intent Placeholder Reference
 

@@ -140,10 +140,9 @@ ai-dev-spec/
 ├── skills/
 │   └── ai-workflow/
 │       ├── SKILL.md             # 核心编排逻辑（7 个阶段）
-│       ├── scripts/
-│       │   └── analyze_codebase.py  # 代码库分析脚本（纯 Python3 标准库）
 │       ├── references/
 │       │   ├── spec-driven-principles.md   # 四大框架综合方法论
+│       │   ├── analysis-methodology.md    # 代码库分析方法论（使用内置工具）
 │       │   ├── analysis-guide.md           # 分析数据解读与类型推断
 │       │   ├── workflow-new-project.md     # 新建项目工作流方法论
 │       │   ├── workflow-maintenance.md     # 维护项目工作流方法论
@@ -186,7 +185,6 @@ ai-dev-spec/
 
 面向插件本身的开发：
 
-- 分析脚本仅使用 Python3 标准库，不依赖第三方包
 - SKILL.md 使用祈使句式（非第二人称）
 - 模板中使用 `{{PLACEHOLDER}}` 格式的占位符
 - 引用插件内文件使用 `${CLAUDE_PLUGIN_ROOT}` 变量

@@ -79,21 +79,26 @@ Refactor projects typically involve two directories:
 
 ## Phase 2: Codebase Analysis
 
-Execute the analysis script on the **source directory** (legacy directory for refactor projects):
+Read `references/analysis-methodology.md` and execute each analysis step
+on the **source directory** (legacy directory for refactor projects)
+using built-in tools (Glob, Grep, Read, Bash for git commands only).
 
-```bash
-python3 "${CLAUDE_PLUGIN_ROOT}/skills/ai-workflow/scripts/analyze_codebase.py" SOURCE_PATH
-```
+Collect all data fields defined in the methodology for use in template
+placeholder substitution (Phase 5-6).
 
 **For refactor projects with clean slate approach:**
 - Analyze `LEGACY_DIR` to understand the existing system
 - Generate configs in `TARGET_DIR`
 - Include legacy analysis data in the generated configs
 
-Capture JSON output. Handle edge cases:
-- **Empty directory**: `total_files: 0`. Proceed with `new` type.
-- **Script failure**: Fall back to manual analysis using Glob and Grep tools.
-- **No Python3**: Perform manual analysis by reading key config files.
+Handle edge cases:
+- **Empty directory**: If no source files found (total_files = 0), skip
+  analysis steps and proceed with `new` type.
+- **Not a git repository**: Skip Step 6 (git metrics). Record git fields
+  as "N/A".
+- **Large repository (1000+ files)**: Focus on root-level config files and
+  top 2 levels of directory structure for architecture recognition. Use
+  extension distribution for file statistics instead of per-file counting.
 
 Present summary to user:
 
@@ -443,7 +448,8 @@ After verification, present:
 ## Reference Files
 
 - **`references/spec-driven-principles.md`** — Synthesized principles from Spec-Kit, OpenSpec, Superpowers, BMAD
-- **`references/analysis-guide.md`** — Analysis JSON interpretation and type inference matrix
+- **`references/analysis-methodology.md`** — Step-by-step codebase analysis using built-in tools
+- **`references/analysis-guide.md`** — Analysis data interpretation and type inference matrix
 - **`references/workflow-new-project.md`** — Spec-driven 0→1 methodology
 - **`references/workflow-maintenance.md`** — Brownfield-first maintenance methodology
 - **`references/workflow-refactor.md`** — Delta-spec-driven refactoring methodology
