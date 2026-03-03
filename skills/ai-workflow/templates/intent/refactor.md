@@ -3,6 +3,12 @@
 > Captured: {{DATE}}
 > Migration: {{LEGACY_TECH_STACK}} → {{PRIMARY_LANGUAGE}} / {{FRAMEWORK}}
 
+## Refactor Approach
+
+- **Type**: {{REFACTOR_APPROACH}}
+- **Legacy Codebase**: {{LEGACY_DIR}}
+- **Target Directory**: {{TARGET_DIR}}
+
 ## Motivation
 {{REFACTOR_MOTIVATION}}
 

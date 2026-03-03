@@ -5,6 +5,12 @@
 > Migration: {{LEGACY_TECH_STACK}} → {{PRIMARY_LANGUAGE}} / {{FRAMEWORK}}
 > This file serves as the AI behavioral guide during migration.
 
+## Project Structure
+
+- **Legacy Codebase**: `{{LEGACY_DIR}}`
+- **Target Codebase**: `{{TARGET_DIR}}` (this directory)
+- **Approach**: {{REFACTOR_APPROACH}}
+
 ## Commands — New Architecture
 
 | Command | Description |
