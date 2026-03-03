@@ -45,6 +45,12 @@ AI agents MUST:
 6. **Evidence required** — Show actual test output, not "it works"
 7. **Follow existing patterns** — Consistency over personal preference
 8. **Minimum viable change** — One concern per commit
+9. **Document sync** — When updating any document, identify and update all documents that reference or depend on the changed content. Common relationships include but are not limited to:
+   - `CLAUDE.md` ↔ `.spec/project-context.md` (tech stack, conventions)
+   - `.spec/constitution.md` ↔ `.spec/workflow.md` (governance ↔ workflow rules)
+   - `.spec/specs/*.md` ↔ `.spec/changes/` (specs ↔ delta changes)
+   - Design docs / ADRs ↔ specs and implementation
+   - Any document referencing another by path or content
 
 ## Development Workflow
 

@@ -127,6 +127,13 @@ Wait for confirmation before proceeding.
 
 > **Applies to**: `new` and `refactor` only. Skip this phase for `maintenance`.
 
+> **SCOPE BOUNDARY**: This phase collects intent data ONLY for populating
+> `{{INTENT_*}}` placeholders in configuration templates. Record the user's
+> answers as-is — do NOT design architecture, propose migration strategies,
+> evaluate technical trade-offs, or begin actual project work. Keep every
+> response focused on data collection and move to Phase 5 immediately after
+> confirmation.
+
 Collect user intent to populate intent-specific placeholders across all output templates.
 This produces richer, more accurate configurations compared to relying solely on codebase analysis.
 
@@ -147,13 +154,21 @@ Present three options:
 
 ### Step 3: Collect Intent
 
-**Free-form mode**: Present a single open prompt:
+**Free-form mode**: Present a single open prompt.
 
-> Tell me about this project — what are you building (or migrating), who is it for,
+For **new** projects:
+> Tell me about this project — what are you building, who is it for,
 > what problem does it solve, and what constraints should I know about?
+
+For **refactor** projects:
+> Briefly describe: what is the refactor motivation, what should the target state
+> look like, what are the main pain points, and what constraints should I know about?
+> (Keep it high-level — detailed architecture design comes later when you use the
+> generated workflow.)
 
 Parse the response to extract structured fields matching the intent template placeholders.
 Ask a follow-up only if critical fields (Vision/Motivation, Success Criteria) are missing.
+Do NOT elaborate on, evaluate, or expand the user's answers — simply record them.
 
 **Guided mode (new project)** — ask sequentially, one at a time:
 
@@ -187,10 +202,21 @@ Format the summary matching the intent template structure (`templates/intent/{ty
 
 Once confirmed, store the intent data for use in Phase 6 template generation.
 
+> **REMINDER — PROCEED TO PHASE 5**: Intent collection is complete. The purpose
+> of this skill is to **generate AI workflow configuration files**, not to execute
+> the refactoring itself. Proceed immediately to Phase 5 (Load References and
+> Templates) and then Phase 6 (Generate Output Files). Do NOT start designing
+> architecture, planning migration, or doing any actual project work.
+
 > **Fallback**: If the user chose "Skip" or any intent placeholder remains empty after collection,
 > replace it with `[NEEDS CLARIFICATION]` and append a hint directing to `.spec/intent.md`.
 
 ## Phase 5: Load References and Templates
+
+> **CHECKPOINT**: All user input has been collected (Phases 1-4). From this point
+> forward, the task is purely mechanical: read templates, substitute placeholders,
+> and write output files. No further user interaction is needed until the final
+> summary in Phase 7.
 
 Based on confirmed type, read in this order:
 

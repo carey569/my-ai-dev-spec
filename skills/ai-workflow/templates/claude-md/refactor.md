@@ -57,6 +57,14 @@ This project is undergoing an incremental migration. AI agents MUST:
 6. **Always have rollback** — Feature flags for every migrated module
 7. **Evidence required** — Prove feature parity with actual test output
 8. **Check migration status** — See `.spec/project-context.md` for module migration tracker
+9. **Document sync** — When updating any document, identify and update all documents that reference or depend on the changed content. Common relationships include but are not limited to:
+   - `CLAUDE.md` ↔ `.spec/project-context.md` (tech stack, migration tracker)
+   - `.spec/constitution.md` ↔ `.spec/workflow.md` (governance ↔ migration workflow)
+   - `.spec/specs/legacy/*.md` ↔ `.spec/specs/feature-parity.md` (characterization ↔ parity checklist)
+   - `.spec/changes/migrate-*` ↔ `.spec/specs/` (delta changes ↔ specs)
+   - `.spec/intent.md` ↔ `.spec/constitution.md` (refactor goals ↔ principles)
+   - Design docs / ADRs ↔ specs and implementation
+   - Any document referencing another by path or content
 
 ## Migration Workflow (Per Module)
 

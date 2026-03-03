@@ -22,3 +22,8 @@ AI 开发工作流生成器插件。根据项目类型（新建/维护/重构）
 - SKILL.md 使用祈使句式（非第二人称）
 - 模板中使用 `{{PLACEHOLDER}}` 格式的占位符
 - 引用插件内文件使用 `${CLAUDE_PLUGIN_ROOT}` 变量
+- 文档联动更新：修改任何文档时，检查并同步更新所有关联文档。关联关系包括：
+  - `SKILL.md` ↔ `references/*.md`：编排逻辑引用的方法论
+  - `SKILL.md` ↔ `templates/**/*.md`：编排逻辑引用的模板
+  - `templates/` 同类型文件互相关联（如 `constitution/refactor.md` ↔ `workflow-guide/refactor.md`）
+  - `CLAUDE.md` ↔ `SKILL.md`：项目结构描述与实际编排逻辑
