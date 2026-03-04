@@ -14,6 +14,8 @@ AI 开发工作流生成器插件。根据项目类型（新建/维护/重构）
     - `project-context/` — 项目上下文模板
     - `workflow-guide/` — 工作流文档模板
     - `commands/` — Slash 命令模板（生成到目标项目 `.claude/commands/`）
+    - `skills/` — Skill 模板（生成到目标项目 `.claude/skills/`）
+      - `common/prd/` — PRD 技能（多文件，含 SKILL.md + references/）
 
 ## 开发规范
 

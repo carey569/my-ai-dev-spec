@@ -232,8 +232,9 @@ Based on confirmed type, read in this order:
 5. `templates/claude-md/{type}.md` — CLAUDE.md template
 6. `templates/workflow-guide/{type}.md` — workflow document template
 7. `templates/commands/common/*.md` — common skill templates (all types)
-8. `templates/commands/{type}/*.md` — type-specific skill templates
-9. `templates/intent/{type}.md` — intent document template (new/refactor only)
+8. `templates/skills/common/prd/SKILL.md` + `templates/skills/common/prd/references/*.md` — prd skill multi-file template
+9. `templates/commands/{type}/*.md` — type-specific skill templates
+10. `templates/intent/{type}.md` — intent document template (new/refactor only)
 
 Type mapping: `new` → `new-project`, `maintenance` → `maintenance`, `refactor` → `refactor`
 
@@ -350,8 +351,9 @@ Initialize the change tracking directory following OpenSpec's model:
 
 Generate project-level skills as `.claude/skills/*/SKILL.md` files.
 
-**Common skills (all types) — generated from `templates/commands/common/`:**
+**Common skills (all types) — generated from `templates/commands/common/` and `templates/skills/common/`:**
 - `analyst` — Discovery and brainstorming (BMAD Analyst)
+- `prd` — PRD generation with business scenarios, process flows, and prototypes
 - `pm` — Spec writing with Given/When/Then (BMAD PM)
 - `architect` — Technical design and task breakdown (BMAD Architect)
 - `adr` — Architecture Decision Records (Spec-Kit)
@@ -369,20 +371,24 @@ Generate project-level skills as `.claude/skills/*/SKILL.md` files.
 - `parity-check` — Feature parity verification (from `templates/commands/refactor/`)
 
 For each skill template:
-1. Read ALL common skills from `templates/commands/common/*.md`
-2. Read ALL project-specific skills from:
+1. Read ALL common single-file skills from `templates/commands/common/*.md`
+2. Read ALL common multi-file skills from `templates/skills/common/*/` (e.g., `prd/`)
+3. Read ALL project-specific skills from:
    - `templates/commands/new-project/*.md`
    - `templates/commands/maintenance/*.md`
    - `templates/commands/refactor/*.md`
-3. Replace `{{PLACEHOLDER}}` variables with actual analysis data:
+4. Replace `{{PLACEHOLDER}}` variables with actual analysis data:
    - `{{PROJECT_NAME}}` → actual project name
    - `{{TEST_CMD}}` → actual test command
    - `{{BUILD_CMD}}` → actual build command
    - `{{LINT_CMD}}` → actual lint command
    - `{{INSTALL_CMD}}` → actual install command
-4. Write to `target-project/.claude/skills/{name}/SKILL.md`
+5. For single-file skills: write to `target-project/.claude/skills/{name}/SKILL.md`
+6. For multi-file skills (directory-based, e.g., `prd/`): preserve the directory structure
+   - Write SKILL.md to `target-project/.claude/skills/{name}/SKILL.md`
+   - Write all reference files to `target-project/.claude/skills/{name}/references/*.md`
 
-**IMPORTANT**: Generate ALL skills (common + all project-specific) regardless of project type. Every project gets all 14 skills.
+**IMPORTANT**: Generate ALL skills (common + all project-specific) regardless of project type. Every project gets all 15 skills.
 
 **Backward Compatibility:**
 - If `.claude/commands/` exists in target project, preserve it and warn about migration
@@ -393,25 +399,27 @@ For each skill template:
 
 ### Step 1: Verify All Skills Generated
 
-After generating all files, verify that ALL 14 skills were created successfully:
+After generating all files, verify that ALL 15 skills were created successfully:
 
 **Expected skills (must all exist):**
 1. `.claude/skills/analyst/SKILL.md`
-2. `.claude/skills/pm/SKILL.md`
-3. `.claude/skills/architect/SKILL.md`
-4. `.claude/skills/adr/SKILL.md`
-5. `.claude/skills/dev/SKILL.md`
-6. `.claude/skills/tdd/SKILL.md`
-7. `.claude/skills/qa/SKILL.md`
-8. `.claude/skills/scaffold/SKILL.md`
-9. `.claude/skills/bugfix/SKILL.md`
-10. `.claude/skills/dep-update/SKILL.md`
-11. `.claude/skills/incident/SKILL.md`
-12. `.claude/skills/legacy-analyze/SKILL.md`
-13. `.claude/skills/migrate/SKILL.md`
-14. `.claude/skills/parity-check/SKILL.md`
+2. `.claude/skills/prd/SKILL.md` + `.claude/skills/prd/references/*.md`
+3. `.claude/skills/pm/SKILL.md`
+4. `.claude/skills/architect/SKILL.md`
+5. `.claude/skills/adr/SKILL.md`
+6. `.claude/skills/dev/SKILL.md`
+7. `.claude/skills/tdd/SKILL.md`
+8. `.claude/skills/qa/SKILL.md`
+9. `.claude/skills/scaffold/SKILL.md`
+10. `.claude/skills/bugfix/SKILL.md`
+11. `.claude/skills/dep-update/SKILL.md`
+12. `.claude/skills/incident/SKILL.md`
+13. `.claude/skills/legacy-analyze/SKILL.md`
+14. `.claude/skills/migrate/SKILL.md`
+15. `.claude/skills/parity-check/SKILL.md`
 
 Use Glob to check: `target-project/.claude/skills/*/SKILL.md`
+For multi-file skills (prd), also verify: `target-project/.claude/skills/prd/references/*.md`
 
 If any skills are missing:
 - Report which skills are missing
@@ -423,8 +431,8 @@ If any skills are missing:
 After verification, present:
 
 1. **Created files list** with one-line descriptions
-2. **Available skills** table showing all 14 generated skills:
-   - **Common skills** (7): analyst, pm, architect, adr, dev, tdd, qa
+2. **Available skills** table showing all 15 generated skills:
+   - **Common skills** (8): analyst, prd, pm, architect, adr, dev, tdd, qa
    - **Project-specific skills** (7): scaffold, bugfix, dep-update, incident, legacy-analyze, migrate, parity-check
 3. **Recommended first actions** (3-5 steps) based on project type:
    - `new`: "Review intent.md → Ratify constitution.md → Ask me to 'write a spec for [feature]' → Ask me to 'design [feature]' → Ask me to 'implement [feature] with TDD'"
@@ -461,7 +469,8 @@ After verification, present:
 - **`templates/project-context/{type}.md`** — Project context templates
 - **`templates/claude-md/{type}.md`** — CLAUDE.md output templates
 - **`templates/workflow-guide/{type}.md`** — Workflow document templates
-- **`templates/commands/common/*.md`** — Common skill templates (analyst, pm, architect, adr, dev, tdd, qa)
+- **`templates/commands/common/*.md`** — Common skill templates (analyst, prd, pm, architect, adr, dev, tdd, qa)
+- **`templates/skills/common/prd/`** — PRD skill multi-file template (SKILL.md + references/)
 - **`templates/commands/new-project/*.md`** — New project skill templates (scaffold)
 - **`templates/commands/maintenance/*.md`** — Maintenance skill templates (bugfix, dep-update, incident)
 - **`templates/commands/refactor/*.md`** — Refactor skill templates (legacy-analyze, migrate, parity-check)
